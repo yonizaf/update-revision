@@ -36,6 +36,7 @@
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
@@ -59,6 +60,7 @@
   -->
   <PropertyGroup>
     <PreBuildEvent>"$(ProjectDir)updaterevision.exe" -f "$(ProjectDir)Properties\AssemblyInfo.cs"</PreBuildEvent>
-    <PostBuildEvent>call "$(ProjectDir)updaterevision.exe" --revert -f "$(ProjectDir)Properties\AssemblyInfo.cs"</PostBuildEvent>
+    <PostBuildEvent>
+    </PostBuildEvent>
   </PropertyGroup>
 </Project>

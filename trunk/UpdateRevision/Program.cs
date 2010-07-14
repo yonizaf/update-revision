@@ -5,6 +5,8 @@ using System.IO;
 //using System.Text;
 using System.Text.RegularExpressions;
 using System.Diagnostics;
+using System.Windows.Forms;
+
 
 namespace UpdateRevision
 {
@@ -16,6 +18,11 @@ namespace UpdateRevision
 			string fileContent = "";
 			bool   revert = false;
 			string inputFile = "AssemblyInfo.cs";
+			string currentDir = Directory.GetCurrentDirectory();
+
+			Console.WriteLine("UpdateRevision version " + Application.ProductVersion); 
+			Directory.SetCurrentDirectory(Path.GetDirectoryName(Application.ExecutablePath));
+
 			Console.WriteLine("Computing Arguments...");
 			for (int key = 0; key < args.Length; ++key)
 			{
@@ -78,9 +85,6 @@ namespace UpdateRevision
 			if (File.Exists(inputFile))
 			{
 				Console.WriteLine("Input file exists. opening...");
-				/*StreamReader streamReader = File.OpenText(inputFile);
-				fileContent = streamReader.ReadToEnd();
-				streamReader.Close();*/
 				fileContent = File.ReadAllText(inputFile);
 
 				Console.WriteLine("Opened. Fixing version...");
@@ -94,8 +98,7 @@ namespace UpdateRevision
 			{
 				Console.WriteLine("\nError: Input file does not exist. Exiting...\n");
 			}
-			//string str = "[assembly: AssemblyVersion(\"1.1.7.*\")]";
-			//AsmVer.Replace(str,"${1}"+""+"${3}");
+			Directory.SetCurrentDirectory(currentDir);
 		}
 	}
 }
