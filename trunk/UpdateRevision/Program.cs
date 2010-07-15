@@ -19,28 +19,37 @@ namespace UpdateRevision
 			bool   revert = false;
 			string inputFile = "AssemblyInfo.cs";
 			string currentDir = Directory.GetCurrentDirectory();
+			string RepoDir = Path.GetDirectoryName(Application.ExecutablePath);
 
-			Console.WriteLine("UpdateRevision version " + Application.ProductVersion); 
-			Directory.SetCurrentDirectory(Path.GetDirectoryName(Application.ExecutablePath));
+			Console.WriteLine("UpdateRevision version " + Application.ProductVersion);
+			Console.WriteLine("current dir: " + currentDir + "\n");
 
 			Console.WriteLine("Computing Arguments...");
-			for (int key = 0; key < args.Length; ++key)
+			foreach (string arg in args)
 			{
-
-				if (args[key] == "--revert")
-				{
+				if (arg == "--revert")
+				{// revert mode will change revision to *
 					revert = true;
-					Console.WriteLine("Revert mode: Yes.");
 				}
-				else if (key > 0 && args[key - 1] == "-f")
-				{
-					inputFile = args[key];
+				else if (Regex.IsMatch(arg,"-f=",RegexOptions.IgnoreCase))
+				{//filename for input/output
+					inputFile = Regex.Replace(arg,"(-f=)(.*)","$2",RegexOptions.IgnoreCase);
+				}
+				else if (Regex.IsMatch(arg,"-rd=",RegexOptions.IgnoreCase))
+				{//repository directory
+					RepoDir = Regex.Replace(arg, "(-rd=)(.*)", "$2", RegexOptions.IgnoreCase);
+					if (RepoDir == "" || !Directory.Exists(RepoDir))
+					{
+						Console.WriteLine("Repository directory does not exist. using default.");
+						RepoDir = Path.GetDirectoryName(Application.ExecutablePath);
+					}
 				}
 			}
-			Console.WriteLine("Input file: " + inputFile + "\ncurrent dir: "+Directory.GetCurrentDirectory());
+			Console.WriteLine("Input file: " + inputFile + "\nrepository dir: " + Path.GetFullPath(RepoDir) + "\n" + (revert ? "Mode: revert." : "Mode: normal")+"\n");
 
 			if (!revert)//no need for revision on revert
 			{
+				Directory.SetCurrentDirectory(RepoDir);
 				try
 				{
 					Console.WriteLine("Collecting revision...");
@@ -62,6 +71,7 @@ namespace UpdateRevision
 				{
 					Console.WriteLine("Error collecting revision.");
 				}
+				Directory.SetCurrentDirectory(currentDir);
 
 				if (revision == "" || revision == "exported")
 				{
