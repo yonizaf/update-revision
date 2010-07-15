@@ -24,7 +24,6 @@ namespace UpdateRevision
 			Console.WriteLine("UpdateRevision version " + Application.ProductVersion);
 			Console.WriteLine("current dir: " + currentDir + "\n");
 
-			Console.WriteLine("Computing Arguments...");
 			foreach (string arg in args)
 			{
 				if (arg == "--revert")
@@ -43,6 +42,14 @@ namespace UpdateRevision
 						Console.WriteLine("Repository directory does not exist. using default.");
 						RepoDir = Path.GetDirectoryName(Application.ExecutablePath);
 					}
+				}
+				if (arg == "--help" || arg == "-h" || arg == "/?") 
+				{// help
+					Console.WriteLine("usage: UpdateRevision [--revert] [-f=<filename>] [-rd=<reppath>]\n");
+					Console.WriteLine("  --revert\t: Change revision to * instead of revision number.");
+					Console.WriteLine("  -f=<filename>\t: The name of the target file for replacing revision.");
+					Console.WriteLine("  -rd=<reppath>\t: Path of the repository to check the revision of.");
+					Environment.Exit(0);
 				}
 			}
 			Console.WriteLine("Input file: " + inputFile + "\nrepository dir: " + Path.GetFullPath(RepoDir) + "\n" + (revert ? "Mode: revert." : "Mode: normal")+"\n");
