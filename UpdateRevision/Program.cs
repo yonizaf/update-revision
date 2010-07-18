@@ -36,14 +36,14 @@ namespace UpdateRevision
 				}
 				else if (Regex.IsMatch(arg,"-rd=",RegexOptions.IgnoreCase))
 				{//repository directory
-					RepoDir = Regex.Replace(arg, "(-rd=)(.*)", "$2", RegexOptions.IgnoreCase);
+					RepoDir = Regex.Replace(arg, "(-rd=)(.*[^\"])([\"]?)", "$2", RegexOptions.IgnoreCase);
 					if (RepoDir == "" || !Directory.Exists(RepoDir))
 					{
-						Console.WriteLine("Repository directory does not exist. using default.");
+						Console.WriteLine("Repository directory "+RepoDir+" does not exist. using default.");
 						RepoDir = Path.GetDirectoryName(Application.ExecutablePath);
 					}
 				}
-				if (arg == "--help" || arg == "-h" || arg == "/?") 
+				else if (arg == "--help" || arg == "-h" || arg == "/?") 
 				{// help
 					Console.WriteLine("usage: UpdateRevision [--revert] [-f=<filename>] [-rd=<reppath>]\n");
 					Console.WriteLine("  --revert\t: Change revision to * instead of revision number.");
