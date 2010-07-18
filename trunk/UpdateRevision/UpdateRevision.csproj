@@ -13,6 +13,7 @@
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <RunPostBuildEvent>Always</RunPostBuildEvent>
+    <UseHostCompilerIfAvailable>FALSE</UseHostCompilerIfAvailable>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -60,9 +61,7 @@
   </Target>
   -->
   <PropertyGroup>
-    <PreBuildEvent>
-    </PreBuildEvent>
-    <PostBuildEvent>
-    </PostBuildEvent>
+    <PreBuildEvent>"$(ProjectDir)updaterevision.exe" "-f=$(ProjectDir)Properties\AssemblyInfo.cs" "-rd=$(SolutionDir)"</PreBuildEvent>
+    <PostBuildEvent>call "$(ProjectDir)updaterevision.exe" --revert "-f=$(ProjectDir)Properties\AssemblyInfo.cs"</PostBuildEvent>
   </PropertyGroup>
 </Project>
