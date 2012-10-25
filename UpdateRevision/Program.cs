@@ -102,8 +102,8 @@ namespace UpdateRevision
 				fileContent = File.ReadAllText(inputFile);
 
 				Console.WriteLine("Opened. Fixing version...");
-				Regex AsmVer = new Regex("(AssemblyVersion\\(\"[0-9]+\\.[0-9]+\\.[0-9]+\\.)([0-9]+|\\*)(\"\\))");
-				string fixedFile = AsmVer.Replace(fileContent, "${1}" + revision + "${3}");
+				Regex AsmVer = new Regex("(Assembly(File)?Version\\(\"([0-9]+\\.)+)([0-9]+|\\*)(\"\\))");
+				string fixedFile = AsmVer.Replace(fileContent, "${1}" + revision + "${5}");
 
 				Console.WriteLine("Writing back to file...");
 				File.WriteAllText(inputFile, fixedFile);
