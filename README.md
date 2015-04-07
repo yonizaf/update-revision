@@ -1,5 +1,4 @@
 # update-revision
-Automatically exported from code.google.com/p/update-revision
 
 A simple command-line tool that edits a C# _AssemblyInfo.cs_ file, updating the revision number in _AssemblyVersion_ to the current SVN revision number.
 
