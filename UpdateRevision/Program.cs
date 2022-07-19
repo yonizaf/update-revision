@@ -12,8 +12,10 @@ namespace UpdateRevision
 		static void Main(string[] args)
 		{
 			string revision = "0";
-			string fileContent = "";
+			string build = null;
+			string fileContent;
 			bool   revert = false;
+			bool   timeBased = false;
 			string inputFile = "AssemblyInfo.cs";
 			string currentDir = Directory.GetCurrentDirectory();
 			string RepoDir = Path.GetDirectoryName(Application.ExecutablePath);
@@ -26,6 +28,10 @@ namespace UpdateRevision
 				if (arg == "--revert")
 				{// revert mode will change revision to *
 					revert = true;
+				}
+				if (arg == "--by-time")
+				{// time mode will change revision based on date and time
+					timeBased = true;
 				}
 				else if (Regex.IsMatch(arg,"-f=",RegexOptions.IgnoreCase))
 				{//filename for input/output
